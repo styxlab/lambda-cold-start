@@ -1,0 +1,43 @@
+{
+  "name": "blogody-platform",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "prebuild": "yarn run generate",
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "generate": "yarn run generate:prisma && yarn run generate-core",
+    "generate:prisma": "prisma generate",
+    "generate-core": "yarn run generate:nexus-core && yarn run generate:graphql-codegen-core",
+    "generate:nexus-core": "GENERATE=true ts-node --transpile-only -P nexus.tsconfig.json graphql/core/schema.ts",
+    "generate:graphql-codegen-core": "graphql-codegen --config ./codegen-build-core.yml",
+    "migrate": "yarn prisma migrate dev --preview-feature"
+  },
+  "dependencies": {
+    "@nexus/schema": "^0.20.1",
+    "@prisma/client": "2.23.0",
+    "@urql/exchange-graphcache": "^4.1.1",
+    "apollo-server-micro": "^2.24.1",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.12.4",
+    "next": "^10.2.3",
+    "next-urql": "^3.1.0",
+    "nexus": "^1.0.0",
+    "nexus-plugin-prisma": "^0.35.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "urql": "^2.0.3"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.5",
+    "@graphql-codegen/typescript": "^1.22.1",
+    "@graphql-codegen/typescript-operations": "^1.18.0",
+    "@graphql-codegen/typescript-urql": "^2.0.7",
+    "@types/node": "^15.6.1",
+    "@types/react": "^17.0.8",
+    "@types/react-dom": "^17.0.5",
+    "prisma": "2.23.0",
+    "typescript": "^4.3.2"
+  }
+}
