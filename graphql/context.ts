@@ -1,10 +1,10 @@
-//import { PrismaClient } from '@prisma/client'
-//import prisma from '../lib/prisma'
+import { PrismaClient } from "@prisma/client";
+import prisma from "../lib/prisma";
 
 type Auth = "origin" | "bearer" | "secret";
 
 export interface Context {
-  //prisma: PrismaClient
+  prisma: PrismaClient;
   user?: {
     id: number;
     defaultProject: {
@@ -16,7 +16,7 @@ export interface Context {
 
 export function createContext(auth: Auth): Context {
   return {
-    //prisma,
+    prisma,
     auth,
   };
 }

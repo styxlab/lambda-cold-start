@@ -52,3 +52,6 @@ results
 
 # graphql
 generated
+
+# Local Netlify folder
+.netlify
