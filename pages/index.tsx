@@ -39,9 +39,31 @@ const Timer = ({ interval, refetch, set }: TimerProps) => {
 };
 
 const Layout = ({ time }: { time: number }) => {
+  const [env, setEnv] = useState([]);
+  const [message, setMessage] = useState("");
   const [startTime, setStartTime] = useState(time);
+  const [startHello, setStartHello] = useState(0);
+  const [endHello, setEndHello] = useState(0);
   const [{ data, fetching }, refetch] = useAllUsersQuery();
+  const delay = endHello - startHello;
+
   console.log("before fetching", Date.now());
+
+  useEffect(() => {
+    console.log("start hello fetch", Date.now());
+    setStartHello(Date.now());
+    fetch("/api/hello")
+      .then((response) => response.text())
+      .then((result) => setMessage(result))
+      .then(() => setEndHello(Date.now()))
+      .then(() => console.log("end hello fetch", Date.now()));
+  }, [startTime]);
+
+  useEffect(() => {
+    fetch(`/api/env`)
+      .then((result) => result.json())
+      .then((result) => setEnv(result));
+  }, [startTime]);
 
   if (fetching || !data) return <div>"Loading..."</div>;
   console.log("after fetching", Date.now());
@@ -64,6 +86,25 @@ const Layout = ({ time }: { time: number }) => {
         )}
       </div>
       <Timer interval={10} refetch={refetch} set={setStartTime} />
+      <div>
+        {message && (
+          <span>
+            {message} within {delay} milliseconds
+          </span>
+        )}
+      </div>
+      <div>
+        <h1>Environment variables:</h1>
+        <ul>
+          {Object.entries(env).map(([key, item]) => {
+            return (
+              <li key={key}>
+                {Object.keys(item)}: <b>{Object.values(item)}</b>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </>
   );
 };
