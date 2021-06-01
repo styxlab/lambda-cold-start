@@ -3,6 +3,7 @@ import { makeSchema, fieldAuthorizePlugin } from "nexus";
 import path from "path";
 
 import User from "./schema/user";
+import Post from "./schema/post";
 
 // Only generate in development or when the yarn run generate:nexus command is run
 // This fixes deployment on Netlify, otherwise you'll run into an EROFS error during building
@@ -10,7 +11,7 @@ const shouldGenerateArtifacts =
   process.env.NODE_ENV === "development" || process.env.GENERATE === "true";
 
 export const schema = makeSchema({
-  types: [User],
+  types: [User, Post],
   plugins: [
     nexusPrisma({ shouldGenerateArtifacts, experimentalCRUD: true }),
     fieldAuthorizePlugin(),

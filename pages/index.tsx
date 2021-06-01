@@ -1,5 +1,5 @@
 import { Provider } from "urql";
-import { useAllUsersQuery } from "generated/core/graphql";
+import { useAllPostsQuery, useAllUsersQuery } from "generated/core/graphql";
 import { client } from "../graphql/core/client";
 import { useState, useEffect } from "react";
 
@@ -44,7 +44,8 @@ const Layout = ({ time }: { time: number }) => {
   const [startTime, setStartTime] = useState(time);
   const [startHello, setStartHello] = useState(0);
   const [endHello, setEndHello] = useState(0);
-  const [{ data, fetching }, refetch] = useAllUsersQuery();
+  const [{ data: data2, fetching: fetching2 }, refetch2] = useAllUsersQuery();
+  const [{ data, fetching }, refetch] = useAllPostsQuery();
   const delay = endHello - startHello;
 
   console.log("before fetching", Date.now());
@@ -72,7 +73,9 @@ const Layout = ({ time }: { time: number }) => {
   return (
     <>
       <div>
-        User {data.allUsers[0].name} waited {duration} seconds!
+        {/* User {data.allUsers[0].name} waited {duration} seconds! */}
+        Fetching post with title {data.allPosts[0].title} took {duration}{" "}
+        seconds!
       </div>
       <div>
         {duration > 1 ? (
