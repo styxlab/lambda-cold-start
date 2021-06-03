@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "pages/api/*.js": {
+      "excludeFiles": "node_modules/.prisma/client"
+    }
+  }
+}
